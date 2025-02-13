@@ -10,6 +10,7 @@ import com.zhengdianfang.todo.ui.task.TaskViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import org.koin.mp.KoinPlatformTools
 
 @Composable
 @Preview
@@ -27,7 +28,10 @@ val mongoModule = module {
 }
 
 fun initializeKoin() {
-    startKoin {
-        modules(mongoModule)
+    val koin = KoinPlatformTools.defaultContext().getOrNull()
+    if (koin == null) {
+        startKoin {
+            modules(mongoModule)
+        }
     }
 }
